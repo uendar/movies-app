@@ -1,20 +1,23 @@
 import MovieList from "../Movies/movies";
 import { Layout, Typography } from "antd";
-import { connect } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getMovies, showLoadingSpinner } from "../../redux/actions";
 import Sidebar from "../../components/Sidebar/Sidebar";
+import React from "react";
 const { Header, Footer, Sider } = Layout;
 
-const mapStateToProps = ({ dispatch }) => ({
-  dispatch,
-});
-const Dashboard = ({ dispatch }) => {
+const Dashboard = () => {
+  const dispatch = useDispatch();
+  const movieList = useSelector((state: any) => state.simpleReducer.movieList);
+
   useEffect(() => {
-    dispatch(showLoadingSpinner());
-    dispatch(getMovies());
+    if (!movieList || movieList?.length === 0) {
+      dispatch(showLoadingSpinner());
+      dispatch(getMovies());
+    }
   }, []);
+
   return (
     <Layout hasSider>
       <Sider
@@ -44,4 +47,4 @@ const Dashboard = ({ dispatch }) => {
   );
 };
 
-export default connect(mapStateToProps)(Dashboard);
+export default Dashboard;

@@ -1,15 +1,15 @@
+import React from "react";
 import { Layout, List } from "antd";
-import { connect } from "react-redux";
 import MovieCard from "../../components/MovieCard/movieCard";
-
+import { useSelector } from "react-redux";
 const { Content } = Layout;
 
-const mapStateToProps = (state) => ({
-  movieList: state.simpleReducer.movieList,
-  loading: state.simpleReducer.loading,
-});
+const MovieList = () => {
+  const allMovies = useSelector((state: any) => state.simpleReducer.movieList);
+  const searchedMovies = useSelector((state: any) => state.simpleReducer.searchedMovies);
+  const loading = useSelector((state: any) => state.simpleReducer.loading);
+  const movies = searchedMovies ? searchedMovies : allMovies;
 
-const MovieList = ({ movieList, loading }) => {
   return (
     <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
       <List
@@ -23,7 +23,7 @@ const MovieList = ({ movieList, loading }) => {
           xl: 5,
           xxl: 5,
         }}
-        dataSource={movieList}
+        dataSource={movies}
         renderItem={(movie) => (
           <List.Item>
             <MovieCard item={movie}></MovieCard>
@@ -34,4 +34,4 @@ const MovieList = ({ movieList, loading }) => {
   );
 };
 
-export default connect(mapStateToProps)(MovieList);
+export default MovieList;

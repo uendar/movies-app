@@ -1,7 +1,8 @@
+import React from "react";
 import { Select, InputNumber, Space, DatePicker, Input, Typography, Row, Col, Button } from "antd";
 import { useState } from "react";
-import { getMovies, showLoadingSpinner } from "../../redux/actions";
-import { useDispatch } from "react-redux";
+import { getMovies, showLoadingSpinner, searchMovie, resetMovies } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 const { Option } = Select;
 const { Search } = Input;
 const { Title } = Typography;
@@ -13,11 +14,12 @@ const Sidebar = () => {
   const [minRangeFilter, setMinRange] = useState("");
   const [maxRangeFilter, setMaxRange] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
+  const movieList = useSelector((state: any) => state.simpleReducer.movieList);
   const dispatch = useDispatch();
 
-  const filterMovies = (titleSearch) => {
+  const filterMovies = (titleSearch: any) => {
     dispatch(showLoadingSpinner());
-    if (typeof titleSearch !== "string" || !(titleSearch instanceof String)) {
+    if (typeof titleSearch !== "string" || !(titleSearch.toString instanceof String)) {
       titleSearch = "";
     }
     let genres = "";
@@ -33,21 +35,17 @@ const Sidebar = () => {
 
   const searchMovies = (movieText) => {
     if (!movieText) return;
-    dispatch(showLoadingSpinner());
-    dispatch(
-      getMovies({
-        params: `&title=${movieText}`,
-      })
-    );
+    if (movieList && movieList.length > 0) {
+      const movieSearched = movieList.filter((m) => {
+        return m.title === movieText;
+      });
+      dispatch(showLoadingSpinner());
+      dispatch(searchMovie({ movieSearched }));
+    }
   };
 
   const getAllMovies = () => {
-    dispatch(showLoadingSpinner());
-    dispatch(
-      getMovies({
-        params: ``,
-      })
-    );
+    dispatch(resetMovies());
   };
   return (
     <Row>
@@ -80,8 +78,8 @@ const Sidebar = () => {
         <Title level={3} style={{ color: "white" }}>
           Ratings
         </Title>
-        <InputNumber min={1} max={10} size="large" placeholder="Min rating" step="0.1" defaultValue={null} onChange={(e) => setMinRange(e)} /> -
-        <InputNumber min={1} size="large" max={10} placeholder="Max rating" step="0.1" defaultValue={null} onChange={(e) => setMaxRange(e)} />
+        <InputNumber min={1} max={10} size="large" placeholder="Min rating" step="0.1" defaultValue={null as any} onChange={(e) => setMinRange(e)} /> -
+        <InputNumber min={1} size="large" max={10} placeholder="Max rating" step="0.1" defaultValue={null as any} onChange={(e) => setMaxRange(e)} />
       </Col>
       <Col span={20} offset={2} style={{ marginTop: "20px" }}>
         <Title level={3} style={{ color: "white" }}>
@@ -91,10 +89,10 @@ const Sidebar = () => {
           <RangePicker
             picker="year"
             size="large"
-            onChange={(e) => {
+            onChange={(e: any) => {
               const valueOfInput1 = new Date(e[0].format()).getUTCFullYear();
               const valueOfInput2 = new Date(e[1].format()).getUTCFullYear();
-              setReleaseDate([valueOfInput1, valueOfInput2]);
+              setReleaseDate([valueOfInput1, valueOfInput2] as any);
             }}
           />
         </Space>

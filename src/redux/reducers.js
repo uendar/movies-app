@@ -3,6 +3,7 @@ const initialState = {
   movieList: [],
   actors: null,
   directors: [],
+  searchedMovies: null,
   loading: false,
 };
 
@@ -10,7 +11,6 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case "GET_MOVIES":
-      console.log("get movies ", action);
       return {
         ...state,
         movieList: action.payload,
@@ -26,6 +26,18 @@ export default (state = initialState, action) => {
         ...state,
         movie: action.payload,
       };
+    case "SEARCHED_MOVIES":
+      return {
+        ...state,
+        searchedMovies: action.payload,
+        loading: false,
+      };
+    case "RESET_MOVIES":
+      return {
+        ...state,
+        searchedMovies: null,
+      };
+
     default:
       return state;
   }

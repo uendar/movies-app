@@ -1,3 +1,4 @@
+import Search from "antd/lib/transfer/search";
 import { API_KEY, API_ENDPOINT } from "../apis/config";
 
 export function showLoadingSpinner() {
@@ -27,5 +28,18 @@ export const setMovieDetails = (payload) => (dispatch) => {
   dispatch({
     type: "SET_MOVIE",
     payload: payload,
+  });
+};
+
+export const searchMovie = (payload) => (dispatch) => {
+  dispatch({
+    type: "SEARCHED_MOVIES",
+    payload: payload.movieSearched,
+  });
+};
+
+export const resetMovies = () => (dispatch) => {
+  dispatch({
+    type: "RESET_MOVIES",
   });
 };

@@ -1,12 +1,14 @@
+import React from "react";
 import { Card, Descriptions, Badge, Row, Col } from "antd";
 import { useLocation } from "react-router-dom";
 import PageHeader from "../Header/Header";
 
 const { Meta } = Card;
+
 const MovieCard = () => {
   const location = useLocation();
-  const item = location.state;
-  // g(location.state);
+  const item: any = location.state;
+
   return (
     <>
       <Row>

@@ -1,17 +1,15 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import MovieDetails from "./components/MovieDetails/MovieDetails"
+import "App";
 import Dashboard from "./pages/Dashboard/dashboard";
-import "./App.css";
+import MovieDetails from "./components/MovieDetails/MovieDetails";
 
 const App = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Dashboard />} />
-      <Route path="/:movieId" element={<MovieDetails/>} exact />
+      <Route path="/:movieId" element={<MovieDetails />} />
     </Routes>
   </BrowserRouter>
 );
 export default App;
-
-// export default App;

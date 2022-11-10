@@ -1,10 +1,14 @@
+import React, { FC } from "react";
 import { Card } from "antd";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 const { Meta } = Card;
 
-const MovieCard = ({ item, dispatch }) => {
+interface MovieCardProps {
+  item?: any;
+}
 
+const MovieCard: FC<MovieCardProps> = ({ item }) => {
   return (
     <>
       <Link
@@ -13,11 +17,7 @@ const MovieCard = ({ item, dispatch }) => {
         }}
         state={item}
       >
-        <Card
-          hoverable
-          style={{ width: 200 }}
-          cover={<img alt="example" src={item.image} />}
-        >
+        <Card hoverable style={{ width: 200 }} cover={<img alt="example" src={item.image} />}>
           <Meta title={item.title} description={item.description} />
         </Card>
       </Link>
